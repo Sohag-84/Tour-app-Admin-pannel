@@ -1,22 +1,99 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:travel_agency_admin_app/widgets/custom_text_field.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../constants/constant.dart';
+import '../../widgets/progress_dialog.dart';
 import '../../widgets/violet_button.dart';
+import 'home_screen.dart';
 
-class AddTourScreen extends StatelessWidget {
-  AddTourScreen({Key? key}) : super(key: key);
+class AddTourScreen extends StatefulWidget {
+  const AddTourScreen({Key? key}) : super(key: key);
 
+  @override
+  State<AddTourScreen> createState() => _AddTourScreenState();
+}
+
+class _AddTourScreenState extends State<AddTourScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _costController = TextEditingController();
   final TextEditingController _facilityController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+
+  var authCredential = firebaseAuth.currentUser;
+
+  RxBool isLoading = false.obs;
+
+  List<XFile>? multipleImages;
+  List<String> imageUrlList = [];
+
+  Future multipleImagePicker() async {
+    multipleImages = await _picker.pickMultiImage();
+    setState(() {});
+  }
+
+  Future uploadImages() async {
+    try {
+      if (multipleImages != null) {
+        for (int i = 0; i < multipleImages!.length; i += 1) {
+          // upload to stroage
+          File imageFile = File(multipleImages![i].path);
+
+          UploadTask uploadTask =
+              firebaseStorage.ref("Images").putFile(imageFile);
+          TaskSnapshot snapshot = await uploadTask;
+          String imageUrl = await snapshot.ref.getDownloadURL();
+          imageUrlList.add(imageUrl);
+        }
+
+        // upload to database
+        uploadToDB();
+      } else {
+        Fluttertoast.showToast(msg: "Something is wrong.");
+      }
+    } catch (e) {
+      Fluttertoast.showToast(msg: "Failed");
+      Get.back();
+    }
+  }
+
+  uploadToDB() {
+    if (imageUrlList.isNotEmpty) {
+      CollectionReference data = firestore.collection("all-data");
+      data.doc().set(
+        {
+          "owner_name": _nameController.text,
+          "description": _descriptionController.text,
+          "cost": int.parse(_costController.text),
+          "facilities": _facilityController.text,
+          "destination": _destinationController.text,
+          "phone": _phoneNumberController.text,
+          'date_time': DateTime.now(),
+          "gallery_img":
+              FieldValue.arrayUnion(imageUrlList), //we create image list
+        },
+      ).whenComplete(() {
+        Fluttertoast.showToast(msg: "Uploaded SUccessfully.");
+      });
+      Get.to(
+        () => HomeScreen(),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,47 +137,74 @@ class AddTourScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () => multipleImagePicker(),
                       child: const Icon(Icons.add),
                     ),
                   ),
                 ),
+                SizedBox(height: 10.h),
                 SizedBox(
-                  height: 50.h,
+                  height: 150,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: multipleImages?.length ?? 0,
+                    itemBuilder: (_, index) {
+                      return Padding(
+                        padding: EdgeInsets.only(right: 10.w),
+                        child: SizedBox(
+                          width: 100,
+                          child: multipleImages?.length == null
+                              ? const Center(
+                                  child: Text("Images are empty"),
+                                )
+                              : Image.file(
+                                  File(multipleImages![index].path),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                VioletButton(
-                  isLoading: false,
-                  title: "Next",
-                  onAction: () {
-                    if (_nameController.text.isEmpty ||
-                        _nameController.text.length < 3) {
-                      Fluttertoast.showToast(
-                          msg: "Name must be at least 3 character");
-                    } else if (_descriptionController.text.isEmpty ||
-                        _descriptionController.text.length < 3) {
-                      Fluttertoast.showToast(
-                          msg: "description must be at least 3 character");
-                    } else if (_costController.text.isEmpty ||
-                        _costController.text.length < 3) {
-                      Fluttertoast.showToast(
-                          msg: "cost must be at least 3 character");
-                    } else if (_facilityController.text.isEmpty ||
-                        _facilityController.text.length < 3) {
-                      Fluttertoast.showToast(
-                          msg: "facility must be at least 3 character");
-                    } else if (_destinationController.text.isEmpty ||
-                        _destinationController.text.length < 3) {
-                      Fluttertoast.showToast(
-                          msg: "destination must be at least 3 character");
-                    } else if (_phoneNumberController.text.isEmpty ||
-                        _phoneNumberController.text.length < 11) {
-                      Fluttertoast.showToast(
-                          msg: "phone number must be at least 11 character");
-                    } else {
-                      Fluttertoast.showToast(msg: "Everything is ok");
-                    }
-                  },
-                ),
+                SizedBox(height: 50.h),
+                Obx(() {
+                  return VioletButton(
+                    isLoading: isLoading.value,
+                    title: "Next",
+                    onAction: () async {
+                      if (_nameController.text.isEmpty ||
+                          _nameController.text.length < 3) {
+                        Fluttertoast.showToast(
+                            msg: "Name must be at least 3 character");
+                      } else if (_descriptionController.text.isEmpty ||
+                          _descriptionController.text.length < 3) {
+                        Fluttertoast.showToast(
+                            msg: "description must be at least 3 character");
+                      } else if (_costController.text.isEmpty ||
+                          _costController.text.length < 3) {
+                        Fluttertoast.showToast(
+                            msg: "cost must be at least 3 character");
+                      } else if (_facilityController.text.isEmpty ||
+                          _facilityController.text.length < 3) {
+                        Fluttertoast.showToast(
+                            msg: "facility must be at least 3 character");
+                      } else if (_destinationController.text.isEmpty ||
+                          _destinationController.text.length < 3) {
+                        Fluttertoast.showToast(
+                            msg: "destination must be at least 3 character");
+                      } else if (_phoneNumberController.text.isEmpty ||
+                          _phoneNumberController.text.length < 11) {
+                        Fluttertoast.showToast(
+                            msg: "phone number must be at least 11 character");
+                      } else {
+                        isLoading(true);
+                        await uploadImages();
+                        isLoading(false);
+                        Get.back();
+                      }
+                    },
+                  );
+                }),
               ],
             ),
           ),
