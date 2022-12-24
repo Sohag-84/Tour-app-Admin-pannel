@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travel_agency_admin_app/controllers/home_controller.dart';
-import 'package:travel_agency_admin_app/views/bottom_navigation/add_tour_screen.dart';
+import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/home_screen.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/self_tour_screen.dart';
 
@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
 
   final navScreen = [
     HomeScreen(),
-    AddTourScreen(),
+    PackagesScreen(),
     SelfTourPackage(),
   ];
 
@@ -30,7 +30,7 @@ class Home extends StatelessWidget {
             },
             items: const [
               BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add Tour"),
+              BottomNavigationBarItem(icon: Icon(Icons.add), label: "Package"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.home), label: "Self package"),
             ],

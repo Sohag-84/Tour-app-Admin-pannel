@@ -34,13 +34,13 @@ dependencies:
   cupertino_icons: ^1.0.2
   get: ^4.6.5
   flutter_screenutil: ^5.6.0
-  velocity_x: ^3.6.0
   fluttertoast: ^8.1.2
   image_picker: ^0.8.6
   firebase_auth: ^4.1.0
   firebase_core: ^2.1.1
   cloud_firestore: ^4.0.3
   firebase_storage: ^11.0.3
+  intl: ^0.18.0
 
 dev_dependencies:
   flutter_test:

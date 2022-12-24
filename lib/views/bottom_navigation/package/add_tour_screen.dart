@@ -10,12 +10,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travel_agency_admin_app/widgets/custom_text_field.dart';
-import 'package:velocity_x/velocity_x.dart';
 
-import '../../constants/constant.dart';
-import '../../widgets/progress_dialog.dart';
-import '../../widgets/violet_button.dart';
-import 'home_screen.dart';
+import '../../../constants/constant.dart';
+import '../../../widgets/violet_button.dart';
+import '../home_screen.dart';
 
 class AddTourScreen extends StatefulWidget {
   const AddTourScreen({Key? key}) : super(key: key);
@@ -104,7 +102,7 @@ class _AddTourScreenState extends State<AddTourScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                30.h.heightBox,
+                SizedBox(height: 30.h,),
                 Text(
                   "If you have any problems, please contact us. We are at your service all the time.",
                   style: TextStyle(
