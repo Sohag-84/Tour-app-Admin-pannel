@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:travel_agency_admin_app/constants/constant.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/add_tour_screen.dart';
+import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages_details.dart';
 
 class PackagesScreen extends StatelessWidget {
   const PackagesScreen({Key? key}) : super(key: key);
@@ -56,6 +57,8 @@ class PackagesScreen extends StatelessWidget {
                     var data = snapshot.data.docs[index];
                     return Card(
                       child: ListTile(
+                        onTap: () =>
+                            Get.to(() => PackageDetailsScreen(data: data)),
                         leading: Image.network(
                           data['gallery_img'][0],
                           width: 100,
