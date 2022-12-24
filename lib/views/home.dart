@@ -37,9 +37,6 @@ class Home extends StatelessWidget {
           );
         },
       ),
-      appBar: AppBar(
-        actions: [Switch(value: false, onChanged: (value) {})],
-      ),
       body: Obx(
         () {
           return Column(
