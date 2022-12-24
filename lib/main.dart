@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:travel_agency_admin_app/views/home_screen.dart';
+import 'package:travel_agency_admin_app/views/home.dart';
 
 import 'Theme/app_theme.dart';
 
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: AppTheme().lightTheme,
       darkTheme: AppTheme().darkTheme,
       themeMode: ThemeMode.system,
-      home: const HomeScreen(),
+      home: Home(),
     );
   }
 }
