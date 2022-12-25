@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:travel_agency_admin_app/controllers/update_tour_controller.dart';
+import 'package:travel_agency_admin_app/controllers/package_controller.dart';
 import 'package:travel_agency_admin_app/widgets/custom_text_field.dart';
 
 import '../../../widgets/violet_button.dart';
@@ -21,7 +21,7 @@ class PackageEdit extends StatefulWidget {
 }
 
 class _PackageEditState extends State<PackageEdit> {
-  UpdateTourController controller = Get.put(UpdateTourController());
+  PackageController controller = Get.put(PackageController());
 
   @override
   void initState() {

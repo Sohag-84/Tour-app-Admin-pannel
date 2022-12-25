@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,12 +6,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:travel_agency_admin_app/constants/constant.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:travel_agency_admin_app/controllers/package_controller.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/add_tour_screen.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/package_edit.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages_details.dart';
 
 class PackagesScreen extends StatelessWidget {
-  const PackagesScreen({Key? key}) : super(key: key);
+  PackagesScreen({Key? key}) : super(key: key);
+
+  PackageController controller = Get.put(PackageController());
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +76,10 @@ class PackagesScreen extends StatelessWidget {
                             PopupMenuItem(
                               child: InkWell(
                                 onTap: () {
-                                  Get.to(() => PackageEdit(data: data,docId: data.id,));
+                                  Get.to(() => PackageEdit(
+                                        data: data,
+                                        docId: data.id,
+                                      ));
                                 },
                                 child: Row(
                                   children: [
@@ -87,7 +93,9 @@ class PackagesScreen extends StatelessWidget {
                             PopupMenuItem(
                               child: InkWell(
                                 onTap: () {
+                                  controller.deletePackage(docId: data.id);
                                   Fluttertoast.showToast(msg: "delete");
+                                  Get.back();
                                 },
                                 child: Row(
                                   children: [

@@ -1,11 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 import '../constants/constant.dart';
 
-class UpdateTourController extends GetxController {
+class PackageController extends GetxController {
   var costController = TextEditingController();
   var descController = TextEditingController();
   var destinationController = TextEditingController();
@@ -36,5 +35,10 @@ class UpdateTourController extends GetxController {
       Fluttertoast.showToast(
           msg: e.toString(), backgroundColor: Colors.black87);
     }
+  }
+
+  //for delete package:
+  deletePackage({required docId}) {
+    firestore.collection('all-data').doc(docId).delete();
   }
 }
