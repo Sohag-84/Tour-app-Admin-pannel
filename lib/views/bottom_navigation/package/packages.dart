@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:travel_agency_admin_app/constants/constant.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/add_tour_screen.dart';
+import 'package:travel_agency_admin_app/views/bottom_navigation/package/package_edit.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages_details.dart';
 
 class PackagesScreen extends StatelessWidget {
@@ -72,7 +73,7 @@ class PackagesScreen extends StatelessWidget {
                             PopupMenuItem(
                               child: InkWell(
                                 onTap: () {
-                                  Fluttertoast.showToast(msg: "edit");
+                                  Get.to(() => PackageEdit(data: data,docId: data.id,));
                                 },
                                 child: Row(
                                   children: [
