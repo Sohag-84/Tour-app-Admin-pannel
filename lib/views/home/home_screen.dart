@@ -3,17 +3,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:intl/intl.dart' as intl;
-import 'package:travel_agency_admin_app/constants/constant.dart';
+import 'package:travel_agency_admin_app/controllers/package_controller.dart';
 import 'package:travel_agency_admin_app/services/firestore_services.dart';
 
 import '../../widgets/dashboard_button.dart';
 import '../bottom_navigation/package/packages_details.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({Key? key}) : super(key: key);
+
+  final PackageController controller = Get.put(PackageController());
 
   @override
   Widget build(BuildContext context) {
@@ -129,8 +131,7 @@ class HomeScreen extends StatelessWidget {
             SizedBox(height: 15.h),
             Text(
               "Pending Package:",
-              style:
-                  TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w400),
+              style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w400),
             ),
             SizedBox(height: 10.h),
             StreamBuilder(
@@ -157,6 +158,43 @@ class HomeScreen extends StatelessWidget {
                               ),
                               title: Text(data['destination']),
                               subtitle: Text("${data['cost']} BDT"),
+                              trailing: PopupMenuButton(
+                                itemBuilder: (context) => [
+                                  PopupMenuItem(
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/icons/box.png',
+                                            height: 30.h,
+                                            width: 30.w,
+                                          ),
+                                          SizedBox(width: 10.w),
+                                          Text("Approved"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  PopupMenuItem(
+                                    child: InkWell(
+                                      onTap: () {
+                                        controller.deletePackage(
+                                            docId: data.id);
+                                        Fluttertoast.showToast(msg: "delete");
+                                        Get.back();
+                                      },
+                                      child: Row(
+                                        children: [
+                                          Icon(Icons.delete),
+                                          SizedBox(width: 10.w),
+                                          Text("Delete"),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -166,8 +204,7 @@ class HomeScreen extends StatelessWidget {
                 }
               },
             ),
-            
-            ],
+          ],
         ),
       ),
     );
