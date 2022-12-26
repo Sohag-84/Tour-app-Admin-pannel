@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:travel_agency_admin_app/controllers/home_controller.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages.dart';
-import 'package:travel_agency_admin_app/views/bottom_navigation/home_screen.dart';
+import 'package:travel_agency_admin_app/views/home/home_screen.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/self_tour_screen.dart';
 
 class Home extends StatelessWidget {

@@ -13,7 +13,7 @@ import 'package:travel_agency_admin_app/widgets/custom_text_field.dart';
 
 import '../../../constants/constant.dart';
 import '../../../widgets/violet_button.dart';
-import '../home_screen.dart';
+import '../../home/home_screen.dart';
 
 class AddTourScreen extends StatefulWidget {
   const AddTourScreen({Key? key}) : super(key: key);
