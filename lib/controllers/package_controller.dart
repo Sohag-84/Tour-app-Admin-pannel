@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -40,5 +41,12 @@ class PackageController extends GetxController {
   //for delete package:
   deletePackage({required docId}) {
     firestore.collection('all-data').doc(docId).delete();
+  }
+
+  // for approved package
+  approvedPackage({required docId}) {
+    firestore.collection("all-data").doc(docId).set({
+      "approved": true,
+    }, SetOptions(merge: true));
   }
 }

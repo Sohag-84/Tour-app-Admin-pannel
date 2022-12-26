@@ -162,7 +162,11 @@ class HomeScreen extends StatelessWidget {
                                 itemBuilder: (context) => [
                                   PopupMenuItem(
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        controller.approvedPackage(
+                                            docId: data.id);
+                                        Fluttertoast.showToast(msg: "Approved");
+                                      },
                                       child: Row(
                                         children: [
                                           Image.asset(
