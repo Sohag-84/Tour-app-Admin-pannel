@@ -41,6 +41,7 @@ class PackagesScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Color.fromRGBO(46, 41, 78, 1),
         onPressed: () => Get.to(() => const AddTourScreen()),
         child: const Icon(Icons.add),
       ),
