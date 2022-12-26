@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:travel_agency_admin_app/constants/constant.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:travel_agency_admin_app/controllers/package_controller.dart';
+import 'package:travel_agency_admin_app/services/firestore_services.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/add_tour_screen.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/package_edit.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages_details.dart';
@@ -45,7 +45,7 @@ class PackagesScreen extends StatelessWidget {
         child: const Icon(Icons.add),
       ),
       body: StreamBuilder(
-        stream: firestore.collection("all-data").snapshots(),
+        stream: FirestoreServices.getAllApprovedPackage(),
         builder: (context, AsyncSnapshot<dynamic> snapshot) {
           if (!snapshot.hasData) {
             return Center(

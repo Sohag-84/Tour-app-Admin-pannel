@@ -51,7 +51,7 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 StreamBuilder(
-                  stream: FirestoreServices.getTotalPackage(),
+                  stream: FirestoreServices.getAllApprovedPackage(),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (!snapshot.hasData) {
                       return Center(

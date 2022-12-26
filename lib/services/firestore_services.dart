@@ -1,13 +1,6 @@
 import '../constants/constant.dart';
 
 class FirestoreServices {
-  //get total package
-  static getTotalPackage() {
-    return firestore.collection('all-data')
-    .where('approved', isEqualTo: true)
-    .snapshots();
-  }
-
   //get total self package
   static getTotalSelfPackage() {
     return firestore.collection('self-package').snapshots();
@@ -31,6 +24,14 @@ class FirestoreServices {
     return firestore
         .collection("all-data")
         .where('approved', isEqualTo: false)
+        .snapshots();
+  }
+
+  //show all approval package
+  static getAllApprovedPackage() {
+    return firestore
+        .collection('all-data')
+        .where('approved', isEqualTo: true)
         .snapshots();
   }
 }
