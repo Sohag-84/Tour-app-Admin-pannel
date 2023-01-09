@@ -202,7 +202,7 @@ class _AddTourScreenState extends State<AddTourScreen> {
                 Obx(() {
                   return VioletButton(
                     isLoading: isLoading.value,
-                    title: "Next",
+                    title: "Upload",
                     onAction: () async {
                       if (_nameController.text.isEmpty ||
                           _nameController.text.length < 3) {

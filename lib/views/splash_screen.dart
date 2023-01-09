@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:travel_agency_admin_app/views/authentication/login_screen.dart';
 import 'package:travel_agency_admin_app/views/home.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () => Get.offAll(() => Home()));
+    Future.delayed(Duration(seconds: 3), () => Get.offAll(() => LoginScreen()));
   }
 
   @override
