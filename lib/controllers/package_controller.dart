@@ -15,10 +15,15 @@ class PackageController extends GetxController {
 
   updateData({required docId}) {
     var ref = firestore.collection("all-data").doc(docId);
+    int cost = int.parse(costController.text);
     try {
       ref
           .update({
-            'cost': int.parse(costController.text),
+            'cost': cost,
+            "forYou": true,
+            "topPlaces": cost >= 2000 && cost <= 5000 ? true : false,
+            "economy": cost <= 3000 ? true : false,
+            "luxury": cost >= 10000 ? true : false,
             'description': descController.text.toString(),
             'destination': destinationController.text.toString(),
             'facilities': facilitiesController.text.toString(),
@@ -34,7 +39,9 @@ class PackageController extends GetxController {
           );
     } catch (e) {
       Fluttertoast.showToast(
-          msg: e.toString(), backgroundColor: Colors.black87);
+        msg: e.toString(),
+        backgroundColor: Colors.black87,
+      );
     }
   }
 
