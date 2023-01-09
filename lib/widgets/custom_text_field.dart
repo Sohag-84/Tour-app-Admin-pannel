@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget customTextField(String title, TextEditingController nameController,
+    TextInputType textInputType,
     {maxline}) {
   return Padding(
     padding: const EdgeInsets.all(8.0),
@@ -27,10 +28,10 @@ Widget customTextField(String title, TextEditingController nameController,
           child: TextField(
             controller: nameController,
             maxLines: maxline,
+            keyboardType: textInputType,
             decoration: InputDecoration(
               border: InputBorder.none,
               contentPadding: EdgeInsets.only(left: 20.w),
-              
             ),
           ),
         ),

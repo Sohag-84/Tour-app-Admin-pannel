@@ -72,14 +72,21 @@ class _AddTourScreenState extends State<AddTourScreen> {
   uploadToDB() {
     if (imageUrlList.isNotEmpty) {
       CollectionReference data = firestore.collection("all-data");
+      int cost = int.parse(_costController.text);
       data.doc().set(
         {
           "owner_name": _nameController.text,
           "description": _descriptionController.text,
-          "cost": int.parse(_costController.text),
+          "cost": cost,
+          "approved": false,
+          "forYou": true,
+          "topPlaces": cost >= 2000 && cost <= 5000 ? true : false,
+          "economy": cost <= 3000 ? true : false,
+          "luxury": cost >= 10000 ? true : false,
           "facilities": _facilityController.text,
           "destination": _destinationController.text,
           "phone": _phoneNumberController.text,
+          //"uid": firebaseAuth.currentUser!.uid,
           'date_time': DateTime.now(),
           "gallery_img":
               FieldValue.arrayUnion(imageUrlList), //we create image list
@@ -102,7 +109,9 @@ class _AddTourScreenState extends State<AddTourScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 30.h,),
+                SizedBox(
+                  height: 30.h,
+                ),
                 Text(
                   "If you have any problems, please contact us. We are at your service all the time.",
                   style: TextStyle(
@@ -112,12 +121,37 @@ class _AddTourScreenState extends State<AddTourScreen> {
                 SizedBox(
                   height: 20.h,
                 ),
-                customTextField("Owner Name", _nameController),
-                customTextField("Description", _descriptionController),
-                customTextField("Cost", _costController),
-                customTextField("Facilities", _facilityController, maxline: 4),
-                customTextField("Destination", _destinationController),
-                customTextField("Phone Number", _phoneNumberController),
+                customTextField(
+                  "Owner Name",
+                  _nameController,
+                  TextInputType.text,
+                ),
+                customTextField(
+                  "Phone Number",
+                  _phoneNumberController,
+                  TextInputType.number,
+                ),
+                customTextField(
+                  "Cost",
+                  _costController,
+                  TextInputType.number,
+                ),
+                customTextField(
+                  "Destination",
+                  _destinationController,
+                  TextInputType.text,
+                ),
+                customTextField(
+                  "Description",
+                  _descriptionController,
+                  TextInputType.text,
+                ),
+                customTextField(
+                  "Facilities",
+                  _facilityController,
+                  maxline: 4,
+                  TextInputType.text,
+                ),
                 Text(
                   "Choose Images",
                   style: TextStyle(

@@ -52,12 +52,36 @@ class _PackageEditState extends State<PackageEdit> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              customTextField("Owner name:", controller.nameController),
-              customTextField("Cost:", controller.costController),
-              customTextField("Description:", controller.descController),
-              customTextField("Destination:", controller.destinationController),
-              customTextField("Facilities:", controller.facilitiesController),
-              customTextField("Phone:", controller.phoneController),
+              customTextField(
+                "Owner name:",
+                controller.nameController,
+                TextInputType.text,
+              ),
+              customTextField(
+                "Cost:",
+                controller.costController,
+                TextInputType.number,
+              ),
+              customTextField(
+                "Description:",
+                controller.descController,
+                TextInputType.text,
+              ),
+              customTextField(
+                "Destination:",
+                controller.destinationController,
+                TextInputType.text,
+              ),
+              customTextField(
+                "Facilities:",
+                controller.facilitiesController,
+                TextInputType.text,
+              ),
+              customTextField(
+                "Phone:",
+                controller.phoneController,
+                TextInputType.number,
+              ),
               SizedBox(height: 15.h),
               VioletButton(
                 isLoading: false,
