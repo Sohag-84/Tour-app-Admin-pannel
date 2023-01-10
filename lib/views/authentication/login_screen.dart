@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:travel_agency_admin_app/views/home.dart';
 
 import '../../constants/app_colors.dart';
+import '../../controllers/auth_controller.dart';
 import '../../widgets/violet_button.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
+  final controller = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                 height: 80.h,
               ),
               TextFormField(
-                controller: _emailController,
+                controller: controller.emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: "Enter your email",
@@ -43,7 +45,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               TextFormField(
-                controller: _passwordController,
+                controller: controller.passwordController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
                   hintText: "Enter your password",
@@ -55,11 +57,24 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: 40.h,
               ),
-              VioletButton(
-                isLoading: false,
-                title: "Log in",
-                onAction: () {},
-              ),
+              Obx(() {
+                return VioletButton(
+                  isLoading: controller.isLoading.value,
+                  title: "Log in",
+                  onAction: () async {
+                    controller.isLoading(true);
+                    await controller.loginMethod().then((value) {
+                      if (value != null) {
+                        Fluttertoast.showToast(msg: "Logged in");
+                        Get.offAll(() => Home());
+                        controller.isLoading(false);
+                      } else {
+                        controller.isLoading(false);
+                      }
+                    });
+                  },
+                );
+              }),
               SizedBox(height: 10.h),
             ],
           ),
