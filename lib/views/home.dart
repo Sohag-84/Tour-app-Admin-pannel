@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:travel_agency_admin_app/controllers/home_controller.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages.dart';
@@ -28,11 +29,22 @@ class Home extends StatelessWidget {
             onTap: (index) {
               _controllre.navIndex.value = index;
             },
-            items: const [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(icon: Icon(Icons.add), label: "Package"),
+            items: [
               BottomNavigationBarItem(
-                  icon: Icon(Icons.home), label: "Self package"),
+                icon: Icon(Icons.home, size: 30.h),
+                label: "Home",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add, size: 30.h),
+                label: "Package",
+              ),
+              BottomNavigationBarItem(
+                icon: Image(
+                  image: AssetImage('assets/icons/direction.png'),
+                  height: 30.h,
+                ),
+                label: "Tour Guide",
+              ),
             ],
           );
         },
