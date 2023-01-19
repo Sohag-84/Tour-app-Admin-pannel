@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -61,14 +63,18 @@ class LoginScreen extends StatelessWidget {
                 return VioletButton(
                   isLoading: controller.isLoading.value,
                   title: "Log in",
-                  onAction: () async {
+                  onAction: () {
                     controller.isLoading(true);
-                    await controller.loginMethod().then((value) {
-                      if (value != null) {
-                        Fluttertoast.showToast(msg: "Logged in");
+                    Future.delayed(Duration(seconds: 3), () {
+                      if (controller.emailController.text ==
+                              "admin@gmail.com" &&
+                          controller.passwordController.text == "admin@123") {
                         Get.offAll(() => Home());
                         controller.isLoading(false);
                       } else {
+                        Fluttertoast.showToast(
+                          msg: "Email or password is incorrect",
+                        );
                         controller.isLoading(false);
                       }
                     });

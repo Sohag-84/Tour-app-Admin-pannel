@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:travel_agency_admin_app/controllers/home_controller.dart';
 import 'package:travel_agency_admin_app/views/bottom_navigation/package/packages.dart';
 import 'package:travel_agency_admin_app/views/home/home_screen.dart';
-import 'package:travel_agency_admin_app/views/bottom_navigation/self_tour_screen.dart';
+import 'package:travel_agency_admin_app/views/bottom_navigation/tour_guide_screen.dart';
 
 class Home extends StatelessWidget {
   Home({Key? key}) : super(key: key);
@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
   final navScreen = [
     HomeScreen(),
     PackagesScreen(),
-    SelfTourPackage(),
+    TourGuidePackageAddScreen(),
   ];
 
   final _controllre = Get.put(HomeControllre());

@@ -9,26 +9,26 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:travel_agency_admin_app/widgets/custom_text_field.dart';
 
-import '../../../constants/constant.dart';
-import '../../../widgets/violet_button.dart';
-import '../../home/home_screen.dart';
+import '../../constants/constant.dart';
+import '../../widgets/custom_text_field.dart';
+import '../../widgets/violet_button.dart';
+import '../home/home_screen.dart';
 
-class AddTourScreen extends StatefulWidget {
-  const AddTourScreen({Key? key}) : super(key: key);
+class TourGuidePackageAddScreen extends StatefulWidget {
+  const TourGuidePackageAddScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddTourScreen> createState() => _AddTourScreenState();
+  State<TourGuidePackageAddScreen> createState() =>
+      _TourGuidePackageAddScreenState();
 }
 
-class _AddTourScreenState extends State<AddTourScreen> {
-  final TextEditingController _nameController = TextEditingController();
+class _TourGuidePackageAddScreenState extends State<TourGuidePackageAddScreen> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _costController = TextEditingController();
-  final TextEditingController _facilityController = TextEditingController();
   final TextEditingController _destinationController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _howToGOController = TextEditingController();
+  final TextEditingController _liveController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
 
@@ -52,7 +52,7 @@ class _AddTourScreenState extends State<AddTourScreen> {
           File imageFile = File(multipleImages![i].path);
 
           UploadTask uploadTask =
-              firebaseStorage.ref("Admin").child(multipleImages![i].name).putFile(imageFile);
+              firebaseStorage.ref("Images").putFile(imageFile);
           TaskSnapshot snapshot = await uploadTask;
           String imageUrl = await snapshot.ref.getDownloadURL();
           imageUrlList.add(imageUrl);
@@ -71,22 +71,14 @@ class _AddTourScreenState extends State<AddTourScreen> {
 
   uploadToDB() {
     if (imageUrlList.isNotEmpty) {
-      CollectionReference data = firestore.collection("all-data");
-      int cost = int.parse(_costController.text);
+      CollectionReference data = firestore.collection("tour-guide");
       data.doc().set(
         {
-          "owner_name": _nameController.text,
           "description": _descriptionController.text,
-          "cost": cost,
-          "approved": false,
-          "forYou": true,
-          "topPlaces": cost >= 2000 && cost <= 5000 ? true : false,
-          "economy": cost <= 3000 ? true : false,
-          "luxury": cost >= 10000 ? true : false,
-          "facilities": _facilityController.text,
+          "cost": _costController.text,
           "destination": _destinationController.text,
-          "phone": _phoneNumberController.text,
-          'date_time': DateTime.now(),
+          "how_to_go": _howToGOController.text,
+          "live": _liveController.text,
           "gallery_img":
               FieldValue.arrayUnion(imageUrlList), //we create image list
         },
@@ -121,14 +113,9 @@ class _AddTourScreenState extends State<AddTourScreen> {
                   height: 20.h,
                 ),
                 customTextField(
-                  "Owner Name",
-                  _nameController,
+                  "Destination",
+                  _destinationController,
                   TextInputType.text,
-                ),
-                customTextField(
-                  "Phone Number",
-                  _phoneNumberController,
-                  TextInputType.number,
                 ),
                 customTextField(
                   "Cost",
@@ -136,18 +123,19 @@ class _AddTourScreenState extends State<AddTourScreen> {
                   TextInputType.number,
                 ),
                 customTextField(
-                  "Destination",
-                  _destinationController,
-                  TextInputType.text,
-                ),
-                customTextField(
                   "Description",
                   _descriptionController,
                   TextInputType.text,
                 ),
                 customTextField(
-                  "Facilities",
-                  _facilityController,
+                  "How To Go",
+                  _howToGOController,
+                  maxline: 4,
+                  TextInputType.text,
+                ),
+                customTextField(
+                  "Live",
+                  _liveController,
                   maxline: 4,
                   TextInputType.text,
                 ),
@@ -203,30 +191,26 @@ class _AddTourScreenState extends State<AddTourScreen> {
                     isLoading: isLoading.value,
                     title: "Upload",
                     onAction: () async {
-                      if (_nameController.text.isEmpty ||
-                          _nameController.text.length < 3) {
+                      if (_destinationController.text.isEmpty ||
+                          _destinationController.text.length < 3) {
                         Fluttertoast.showToast(
                             msg: "Name must be at least 3 character");
-                      } else if (_descriptionController.text.isEmpty ||
-                          _descriptionController.text.length < 3) {
-                        Fluttertoast.showToast(
-                            msg: "description must be at least 3 character");
                       } else if (_costController.text.isEmpty ||
                           _costController.text.length < 3) {
                         Fluttertoast.showToast(
                             msg: "cost must be at least 3 character");
-                      } else if (_facilityController.text.isEmpty ||
-                          _facilityController.text.length < 3) {
+                      } else if (_descriptionController.text.isEmpty ||
+                          _descriptionController.text.length < 3) {
+                        Fluttertoast.showToast(
+                            msg: "description must be at least 3 character");
+                      } else if (_howToGOController.text.isEmpty ||
+                          _howToGOController.text.length < 3) {
                         Fluttertoast.showToast(
                             msg: "facility must be at least 3 character");
-                      } else if (_destinationController.text.isEmpty ||
-                          _destinationController.text.length < 3) {
+                      } else if (_liveController.text.isEmpty ||
+                          _liveController.text.length < 3) {
                         Fluttertoast.showToast(
                             msg: "destination must be at least 3 character");
-                      } else if (_phoneNumberController.text.isEmpty ||
-                          _phoneNumberController.text.length < 11) {
-                        Fluttertoast.showToast(
-                            msg: "phone number must be at least 11 character");
                       } else {
                         isLoading(true);
                         await uploadImages();
