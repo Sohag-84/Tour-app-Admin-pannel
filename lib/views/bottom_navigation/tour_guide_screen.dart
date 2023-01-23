@@ -48,11 +48,11 @@ class _TourGuidePackageAddScreenState extends State<TourGuidePackageAddScreen> {
     try {
       if (multipleImages != null) {
         for (int i = 0; i < multipleImages!.length; i += 1) {
-          // upload to stroage
+          // upload to storage
           File imageFile = File(multipleImages![i].path);
-
           UploadTask uploadTask =
-              firebaseStorage.ref("Images").putFile(imageFile);
+          firebaseStorage.ref("tour_guide").child(multipleImages![i].name).putFile(imageFile);
+
           TaskSnapshot snapshot = await uploadTask;
           String imageUrl = await snapshot.ref.getDownloadURL();
           imageUrlList.add(imageUrl);
@@ -83,7 +83,7 @@ class _TourGuidePackageAddScreenState extends State<TourGuidePackageAddScreen> {
               FieldValue.arrayUnion(imageUrlList), //we create image list
         },
       ).whenComplete(() {
-        Fluttertoast.showToast(msg: "Uploaded SUccessfully.");
+        Fluttertoast.showToast(msg: "Uploaded Successful.");
       });
       Get.to(
         () => HomeScreen(),
