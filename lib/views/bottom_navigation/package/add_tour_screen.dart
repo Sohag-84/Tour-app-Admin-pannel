@@ -48,7 +48,7 @@ class _AddTourScreenState extends State<AddTourScreen> {
     try {
       if (multipleImages != null) {
         for (int i = 0; i < multipleImages!.length; i += 1) {
-          // upload to stroage
+          // upload to storage
           File imageFile = File(multipleImages![i].path);
 
           UploadTask uploadTask =

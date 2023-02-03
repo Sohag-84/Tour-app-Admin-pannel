@@ -3,7 +3,7 @@ import '../constants/constant.dart';
 class FirestoreServices {
   //get total self package
   static getTotalSelfPackage() {
-    return firestore.collection('self-package').snapshots();
+    return firestore.collection('tour-guide').snapshots();
   }
 
   //get total pending package

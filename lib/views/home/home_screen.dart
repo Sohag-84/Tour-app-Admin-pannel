@@ -69,7 +69,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 StreamBuilder(
                   stream: FirestoreServices.getTotalSelfPackage(),
-                  builder: (context, AsyncSnapshot snapshot) {
+                  builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
                         child: CircularProgressIndicator(),

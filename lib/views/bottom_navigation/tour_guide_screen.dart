@@ -29,7 +29,7 @@ class _TourGuidePackageAddScreenState extends State<TourGuidePackageAddScreen> {
   final TextEditingController _destinationController = TextEditingController();
   final TextEditingController _howToGOController = TextEditingController();
   final TextEditingController _liveController = TextEditingController();
-
+  
   final ImagePicker _picker = ImagePicker();
 
   var authCredential = firebaseAuth.currentUser;

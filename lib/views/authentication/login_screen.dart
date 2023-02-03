@@ -22,9 +22,16 @@ class LoginScreen extends StatelessWidget {
         body: Padding(
           padding: EdgeInsets.only(left: 30.w, right: 30.w),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Center(
+                child: Image.asset(
+                  "assets/logo/logo.png",
+                  height: 180,
+                  width: 180,
+                ),
+              ),
+              SizedBox(height: 50.h),
               Text(
                 "Login\nTo Your Account",
                 style: TextStyle(
