@@ -1,4 +1,4 @@
-# Travello User App
+# Travello Admin App
 
 ### 👉The main features of our app are:
 ✈️ Login </br>
